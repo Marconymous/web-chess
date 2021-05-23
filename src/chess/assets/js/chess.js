@@ -21,28 +21,66 @@ function init() {
         });
         for (let i = 0; i < board.length; i++)
             console.log(board[i]);
+        yield initBoardPositions();
+    });
+}
+function initBoardPositions() {
+    return __awaiter(this, void 0, void 0, function* () {
+        let black = false;
+        let grid = document.createElement('table');
+        for (let y = 1; y <= 8; y++) {
+            let row = document.createElement('tr');
+            for (let x = 1; x <= 8; x++) {
+                let cell = document.createElement('td');
+                cell.classList.add('cell');
+                if (black)
+                    cell.classList.add('black-cell');
+                else
+                    cell.classList.add('white-cell');
+                black = !black;
+                row.appendChild(cell);
+            }
+            black = !black;
+            grid.appendChild(row);
+        }
+        boardContainer.appendChild(grid);
     });
 }
 function interpretFen(fen) {
     return __awaiter(this, void 0, void 0, function* () {
         let board = [];
+        let counter = 0;
         for (let pos = 0; pos < fen.length; pos++) {
             let piece = null;
-            let skip;
-            if (fen[pos] == '/') {
+            let skip = 0;
+            let skipLine = false;
+            if (fen[pos] == '/')
+                continue;
+            counter++;
+            for (let i = 0; i < fenChars.length; i++) {
+                if (fenChars[i].fen == fen[pos]) {
+                    if (fenChars[i].type == 'number')
+                        skip = fenChars[i].translation;
+                    else if (fenChars[i].type == 'string')
+                        skipLine = true;
+                }
+            }
+            for (let i = 0; i < skip; i++) {
+                let cell = { pos: counter++, piece: null };
+                board.push(cell);
             }
             for (let i = 0; i < fenChars.length; i++) {
                 if (fenChars[i].fen == fen[pos]) {
                     if (fenChars[i].type == 'piece')
                         piece = fenChars[i].translation;
-                    else if (fenChars[i].type == 'number')
-                        skip = fenChars[i].translation;
                 }
             }
-            let cell = { pos: pos, piece: null };
+            let cell = { pos: counter, piece: null };
             if (piece != null)
                 cell.piece = piece;
-            board.push(cell);
+            if (skip == 0) {
+                board.push(cell);
+            }
         }
         return board;
     });
@@ -63,6 +101,7 @@ function initTranslation() {
         fenChars.push({ fen: 'R', translation: { color: 1, name: 'rook', value: 5 }, type: 'piece' });
         fenChars.push({ fen: 'Q', translation: { color: 1, name: 'queen', value: 9 }, type: 'piece' });
         fenChars.push({ fen: 'K', translation: { color: 1, name: 'king', value: 10 }, type: 'piece' });
+        fenChars.push({ fen: '/', translation: '/', type: 'string' });
         // Skips
         for (let i = 1; i <= 8; i++)
             fenChars.push({ fen: i.toString(), translation: i, type: 'number' });

@@ -1,0 +1,12 @@
+.cell {
+    width: 100px;
+    height: 100px;
+}
+
+.white-cell {
+    background: navajowhite;
+}
+
+.black-cell {
+    background: burlywood;
+}
