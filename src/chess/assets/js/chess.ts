@@ -19,14 +19,28 @@ async function initBoardPositions() {
     let black = false;
     let grid = document.createElement('table') as HTMLTableElement;
 
-    for (let y = 1; y <= 8; y++) {
+
+    let count = 0;
+    for (let y = 0; y < 8; y++) {
         let row = document.createElement('tr') as HTMLTableRowElement;
-        for (let x = 1; x <= 8; x++) {
+        for (let x = 0; x < 8; x++) {
             let cell = document.createElement('td');
             cell.classList.add('cell');
             if (black) cell.classList.add('black-cell');
             else cell.classList.add('white-cell');
             black = !black;
+
+            let piece = board[count].piece;
+
+            if (piece != null) {
+                let image = document.createElement('img') as HTMLImageElement;
+                image.classList.add('piece');
+
+                image.src = 'assets/img/pieces/' + piece.color + '_' + piece.name + '.png';
+
+                cell.appendChild(image);
+            }
+            count++;
 
             row.appendChild(cell);
         }

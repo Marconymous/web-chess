@@ -28,9 +28,10 @@ function initBoardPositions() {
     return __awaiter(this, void 0, void 0, function* () {
         let black = false;
         let grid = document.createElement('table');
-        for (let y = 1; y <= 8; y++) {
+        let count = 0;
+        for (let y = 0; y < 8; y++) {
             let row = document.createElement('tr');
-            for (let x = 1; x <= 8; x++) {
+            for (let x = 0; x < 8; x++) {
                 let cell = document.createElement('td');
                 cell.classList.add('cell');
                 if (black)
@@ -38,6 +39,14 @@ function initBoardPositions() {
                 else
                     cell.classList.add('white-cell');
                 black = !black;
+                let piece = board[count].piece;
+                if (piece != null) {
+                    let image = document.createElement('img');
+                    image.classList.add('piece');
+                    image.src = 'assets/img/pieces/' + piece.color + '_' + piece.name + '.png';
+                    cell.appendChild(image);
+                }
+                count++;
                 row.appendChild(cell);
             }
             black = !black;
