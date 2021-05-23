@@ -1,6 +1,7 @@
 const boardContainer = document.getElementById('container') as HTMLElement;
-let board:Cell[] = [];
-const fenChars:FenAlloc[] = [];
+let board: Cell[] = [];
+const fenChars: FenAlloc[] = [];
+
 // Function to initialize the Board
 
 
@@ -51,12 +52,12 @@ async function initBoardPositions() {
     boardContainer.appendChild(grid);
 }
 
-async function interpretFen(fen:string):Promise<Cell[]> {
-    let board:Cell[] = [];
+async function interpretFen(fen: string): Promise<Cell[]> {
+    let board: Cell[] = [];
     let counter = 0;
     for (let pos = 0; pos < fen.length; pos++) {
-        let piece:Piece | null = null;
-        let skip:number = 0;
+        let piece: Piece | null = null;
+        let skip: number = 0;
         let skipLine = false;
 
         if (fen[pos] == '/') continue;
@@ -71,7 +72,7 @@ async function interpretFen(fen:string):Promise<Cell[]> {
         }
 
         for (let i = 0; i < skip; i++) {
-            let cell:Cell = {pos: counter++, piece: null};
+            let cell: Cell = {pos: counter++, piece: null};
             board.push(cell);
         }
 
@@ -81,7 +82,7 @@ async function interpretFen(fen:string):Promise<Cell[]> {
             }
         }
 
-        let cell:Cell = {pos: counter, piece: null};
+        let cell: Cell = {pos: counter, piece: null};
         if (piece != null) cell.piece = piece;
 
         if (skip == 0) {
@@ -92,7 +93,7 @@ async function interpretFen(fen:string):Promise<Cell[]> {
     return board;
 }
 
-async function initTranslation():Promise<void> {
+async function initTranslation(): Promise<void> {
     // Black Pieces
     fenChars.push({fen: 'p', translation: {color: 0, name: 'pawn', value: 1}, type: 'piece'});
     fenChars.push({fen: 'n', translation: {color: 0, name: 'knight', value: 3}, type: 'piece'});
