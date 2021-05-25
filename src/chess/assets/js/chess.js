@@ -14,7 +14,7 @@ const fenChars = [];
 // Function to initialize the Board
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
-        let startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
+        let startFen = '3kb3/3pp3/3pp3/3nB3/3Pp3/1PP2PP1/1BQ2PR1/8';
         yield initTranslation();
         yield interpretFen(startFen).then(data => {
             board = data;
@@ -43,6 +43,7 @@ function initBoardPositions() {
                 if (piece != null) {
                     let image = document.createElement('img');
                     image.classList.add('piece');
+                    dragElement(image);
                     image.src = 'assets/img/pieces/' + piece.color + '_' + piece.name + '.png';
                     cell.appendChild(image);
                 }

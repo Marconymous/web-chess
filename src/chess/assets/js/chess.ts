@@ -6,8 +6,9 @@ const fenChars: FenAlloc[] = [];
 
 
 async function init() {
-    let startFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
+    let startFen = '3kb3/3pp3/3pp3/3nB3/3Pp3/1PP2PP1/1BQ2PR1/8';
     await initTranslation();
+
     await interpretFen(startFen).then(data => {
         board = data;
     });
@@ -36,6 +37,8 @@ async function initBoardPositions() {
             if (piece != null) {
                 let image = document.createElement('img') as HTMLImageElement;
                 image.classList.add('piece');
+
+                dragElement(image);
 
                 image.src = 'assets/img/pieces/' + piece.color + '_' + piece.name + '.png';
 
